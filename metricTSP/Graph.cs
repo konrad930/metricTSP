@@ -110,6 +110,36 @@ namespace metricTSP
             return tree;
         }
 
+        public static List<Vertex> GetVerticesWithOddDegree(Graph g)
+        {
+            List<Vertex> vertices = new List<Vertex>();
+
+            foreach (var edge in g.Edges)
+            {
+                vertices.Add(edge.First);
+                vertices.Add(edge.Second);
+            }
+
+            var agr = vertices.GroupBy(x => x);
+            var enumerable = agr as IList<IGrouping<Vertex, Vertex>> ?? agr.ToList();
+
+            return enumerable.Where(e => e.Count() % 2 != 0).Select(e => e.Key).ToList();
+        }
+
+        public static Graph CreateSubGraph(Graph g,List<Vertex> vertices)
+        {
+            var names = vertices.Select(v => v.Name);
+            var edges = g.Edges.Where(e => names.Contains(e.First.Name) && names.Contains(e.Second.Name));
+
+            var subGraph = new Graph();
+            foreach (var vertex in vertices)
+                subGraph.AddVertex(vertex);
+
+            foreach (var edge in edges)
+                subGraph.AddEdge(edge);
+            return subGraph;
+
+        }
 
         #endregion
 

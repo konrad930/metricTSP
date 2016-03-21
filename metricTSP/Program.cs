@@ -49,7 +49,9 @@ namespace metricTSP
            // g.Vertices.ForEach(Console.WriteLine);
            // g.Edges.ForEach(Console.WriteLine);
 
-            Graph.CreateMST(g);
+            Graph t = Graph.CreateMST(g);
+
+            Graph.GetVerticesWithOddDegree(t).ForEach(Console.WriteLine);
 
 
 
