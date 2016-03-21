@@ -12,16 +12,42 @@ namespace metricTSP
         {
             Graph g = new Graph();
 
-            g.AddVertex("0");
+            //g.AddVertex("0");
             g.AddVertex("1");
             g.AddVertex("2");
             g.AddVertex("3");
             g.AddVertex("4");
             g.AddVertex("5");
-            g.AddVertex("6");
-            g.AddVertex("7");
+
+            g.AddEdge("1", "2", 1);
+            g.AddEdge("1", "3", 1);
+            g.AddEdge("1", "4", 1);
+            g.AddEdge("1", "5", 1);
+            g.AddEdge("2", "3", 1);
+            g.AddEdge("2", "4", 2);
+            g.AddEdge("2", "5", 1);
+            g.AddEdge("3", "4", 1);
+            g.AddEdge("3", "5", 1);
+            g.AddEdge("4", "5", 1);
+
+            var mst = Graph.CreateMST(g);
+
+            var odd = Graph.GetVerticesWithOddDegree(mst);
+            var sub = Graph.CreateSubGraph(g, odd);
+            var pm = Graph.PerfectMatching(sub);
+
+            var union = Graph.Union(pm, mst);
+
+            pm.ForEach(Console.WriteLine);
 
 
+
+
+
+            //  g.AddVertex("6");
+            //   g.AddVertex("7");
+
+            /*
             try {
                 g.AddEdge("4", "6", 1);
                 g.AddEdge("4", "5", 2);
@@ -54,7 +80,7 @@ namespace metricTSP
             Graph.GetVerticesWithOddDegree(t).ForEach(Console.WriteLine);
 
 
-
+            */
             Console.ReadKey();
         }
     }

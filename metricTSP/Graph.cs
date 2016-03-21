@@ -15,8 +15,8 @@ namespace metricTSP
 
         #region Properties
 
-        public List<Edge> Edges { get; private set;}
-        public List<Vertex> Vertices { get; private set;}
+        public List<Edge> Edges { get; private set; }
+        public List<Vertex> Vertices { get; private set; }
 
         #endregion
 
@@ -106,7 +106,7 @@ namespace metricTSP
                 tree.AddEdge(edge);
 
             }
-            tree.Edges.ForEach(Console.WriteLine);
+
             return tree;
         }
 
@@ -140,6 +140,82 @@ namespace metricTSP
             return subGraph;
 
         }
+
+        public static  Graph PerfectMatching(Graph o)
+        {
+            var edges = o.Edges.OrderBy(e => e.Weight).ToList();
+            var matchingEdges = new List<Edge>();
+
+            while (edges.Any())
+            {
+                var first = edges[0].First;
+                var second = edges[0].Second;
+
+                matchingEdges.Add(edges[0]);
+
+                edges = edges.Where(e => !(e.First.Name.Equals(first.Name) || e.First.Name.Equals(second.Name) ||
+                            e.Second.Name.Equals(first.Name) || e.Second.Name.Equals(second.Name))).ToList();
+            }
+
+            Graph perfectMatching = new Graph();
+            perfectMatching.Edges = matchingEdges;
+            perfectMatching.Vertices = o.Vertices;
+
+            return perfectMatching;
+        }
+
+        public static Graph Union(Graph m,Graph mst)
+        {
+            Graph union = new Graph();
+
+            union.Edges = m.Edges.Union(mst.Edges).ToList();
+            union.Vertices = mst.Vertices;
+
+            return union;
+        }
+
+        public static List<Edge> Euler(Graph u)
+        {
+            var stack = new Stack<Vertex>();
+
+            
+
+            var vertices = u.Vertices;
+            var edges = u.Edges;
+
+            vertices[0].IsSelected = true;
+            stack.Push(vertices[0]);
+
+            while (stack.Any())
+            {
+                var tempVertex = stack.Peek();
+
+                var nextEdge = edges.Where(e => e.First.Name.Equals(tempVertex.Name) || 
+                                e.Second.Name.Equals(tempVertex.Name)).First();
+
+                if (tempVertex.Name.Equals(nextEdge.First.Name))
+                    stack.Push(nextEdge.Second);
+                else
+                    stack.Push(nextEdge.First);
+                if (stack.Peek().IsSelected)
+                {
+                    stack.Pop();
+                    stack.Pop();
+
+                }
+            }
+
+
+
+
+
+
+
+            return u.Edges;
+        }
+
+
+
 
         #endregion
 
