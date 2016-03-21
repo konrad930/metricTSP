@@ -22,7 +22,7 @@ namespace metricTSP
             g.AddEdge("1", "2", 1);
             g.AddEdge("1", "3", 1);
             g.AddEdge("1", "4", 1);
-            g.AddEdge("1", "5", 1);
+            g.AddEdge("1", "5", 2);
             g.AddEdge("2", "3", 1);
             g.AddEdge("2", "4", 2);
             g.AddEdge("2", "5", 1);
@@ -38,7 +38,9 @@ namespace metricTSP
 
             var union = Graph.Union(pm, mst);
 
-            pm.ForEach(Console.WriteLine);
+            var result = Graph.Euler(union);
+
+            result.ForEach(Console.WriteLine);
 
 
 

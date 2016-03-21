@@ -174,15 +174,14 @@ namespace metricTSP
             return union;
         }
 
-        public static List<Edge> Euler(Graph u)
+        public static List<Vertex> Euler(Graph u)
         {
             var stack = new Stack<Vertex>();
-
-            
 
             var vertices = u.Vertices;
             var edges = u.Edges;
 
+            var result = new List<Vertex>();
             vertices[0].IsSelected = true;
             stack.Push(vertices[0]);
 
@@ -191,7 +190,13 @@ namespace metricTSP
                 var tempVertex = stack.Peek();
 
                 var nextEdge = edges.Where(e => e.First.Name.Equals(tempVertex.Name) || 
-                                e.Second.Name.Equals(tempVertex.Name)).First();
+                                e.Second.Name.Equals(tempVertex.Name)).FirstOrDefault();
+
+                if(nextEdge == null)
+                { 
+                    result.Add(stack.Pop());
+                    continue;
+                }
 
                 if (tempVertex.Name.Equals(nextEdge.First.Name))
                     stack.Push(nextEdge.Second);
@@ -199,19 +204,17 @@ namespace metricTSP
                     stack.Push(nextEdge.First);
                 if (stack.Peek().IsSelected)
                 {
-                    stack.Pop();
-                    stack.Pop();
-
+                    result.Add(stack.Pop());
                 }
+                else
+                {
+                    stack.Peek().IsSelected = true;
+                }
+                edges = edges.Where(e => !(e.First.Name.Equals(nextEdge.First.Name)
+                            && e.Second.Name.Equals(nextEdge.Second.Name))).ToList();
+
             }
-
-
-
-
-
-
-
-            return u.Edges;
+            return result;
         }
 
 
