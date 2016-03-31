@@ -21,6 +21,7 @@ namespace metricTSP
         public Vertex Second { get; set; }
         
         public int Weight {get; set;}
+        public bool isSelected { get; set; }
 
         #endregion
 

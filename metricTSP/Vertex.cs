@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace metricTSP
 {
@@ -11,13 +7,17 @@ namespace metricTSP
         public Vertex(string _name)
         {
             Name = _name;
+            Neighbors = new List<Edge>();
         }
 
         #region Properties
 
         public string Name { get; set; }
 
-        public bool IsSelected { get; set;}
+        public Edge FatherEdge { get; set; }
+
+        public List<Edge> Neighbors { get; set; }
+
         #endregion
 
         #region Override Methods
