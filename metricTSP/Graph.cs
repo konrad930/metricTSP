@@ -38,7 +38,7 @@ namespace metricTSP
             foreach (var edge in vertex.Neighbors)
                 DFS(edge.Second);
             if (vertex.FatherEdge != null)
-                PrintFatherEdge(vertex);
+                PrintReverseFatherEdge(vertex);
         }
 
         private void PrintFatherEdge(Vertex v)
@@ -46,6 +46,11 @@ namespace metricTSP
             Console.WriteLine(v.FatherEdge);
         }
 
+        private void PrintReverseFatherEdge(Vertex v)
+        {
+            var fe = v.FatherEdge;
+            Console.WriteLine(fe.Second.ToString() + "->" + fe.First.ToString() + " : " + fe.Weight);
+        }
 
         public void AddEdge(Vertex vertexA,Vertex vertexB, int weight)
         {
@@ -62,10 +67,8 @@ namespace metricTSP
 
         private Graph CreateMST()
         {
-            var tree = new Graph();
-          
+            var tree = new Graph();        
             var sortedEdges = Edges.OrderBy(e => e.Weight).ToList();
-
             var forest = new List<List<Vertex>>();
 
             foreach (var vertex in Vertices)
